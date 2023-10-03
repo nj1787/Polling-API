@@ -1,13 +1,27 @@
-import express from "express";
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose"); // Require mongoose
+const app = express();
 
-const server = express();
+app.use(bodyParser.json());
+app.use("/questions", require("./routes/questions"));
 
-const port = 6300;
+const PORT = process.env.PORT || 3000;
 
-server.listen(port, (err) => {
-  if (err) {
-    console.log("Error While Starting Server");
-    return;
-  }
-  console.log(`Server Running On Port ${port}`);
-});
+// Connect to MongoDB using Mongoose
+mongoose
+  .connect("mongodb://localhost:27017/pollDb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+
+    // Start the server after successful MongoDB connection
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
