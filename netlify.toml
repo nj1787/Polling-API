@@ -1,0 +1,9 @@
+[build]
+command = "npm run build"  # Replace with your build command
+publish = "Polling-API"         # Replace with your build output directory
+
+[[plugins]]
+package = "netlify-plugin-node"
+
+[plugins.inputs]
+node_version = "16"  # Replace with your desired Node.js version
